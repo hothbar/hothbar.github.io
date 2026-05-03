@@ -201,6 +201,13 @@ nav a.active {
   font-weight: 500;
 }
 
+/* VPN / access caution note */
+.vpn-note {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #e3b341;
+}
+
 /* Project grid */
 .project-grid {
   display: grid;
