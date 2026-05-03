@@ -1,0 +1,22 @@
+# Security headers
+Header always set X-Frame-Options "DENY"
+Header always set X-Content-Type-Options "nosniff"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+Header always set Content-Security-Policy "default-src 'self'; style-src 'self'; img-src 'self'; script-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'none'"
+
+# Prevent directory listing
+Options -Indexes
+
+# Block access to hidden files (except .well-known)
+<FilesMatch "^\.(?!well-known)">
+  Require all denied
+</FilesMatch>
+
+# Deny backup and temp files
+<FilesMatch "\.(bak|old|tmp|log|swp)$">
+  Require all denied
+</FilesMatch>
+
+# Default charset
+AddDefaultCharset UTF-8
