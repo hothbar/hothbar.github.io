@@ -27,8 +27,8 @@
 }
 
 :root {
+  color-scheme: dark;
   --bg: #151a30;
-  --bg-nav: rgba(21,26,48,0.985);
   --surface: #1e2542;
   --text: #eef0f7;
   --muted: #aab1c8;
@@ -50,10 +50,11 @@
   --line: 0.1875rem;
 }
 
+/* Light theme: follows the system unless the toggle chose dark, or the toggle chose light */
 @media (prefers-color-scheme: light) {
-  :root {
+  :root:not([data-theme="dark"]) {
+    color-scheme: light;
     --bg: #f5f5fa;
-    --bg-nav: rgba(245,245,250,0.985);
     --surface: #ffffff;
     --text: #1b2140;
     --muted: #515a78;
@@ -67,6 +68,23 @@
     --plane-fill: rgba(15,122,63,0.04);
     --border: rgba(27,33,64,0.16);
   }
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f5f5fa;
+  --surface: #ffffff;
+  --text: #1b2140;
+  --muted: #515a78;
+  --accent: #0f7a3f;
+  --on-accent: #ffffff;
+  --glow: rgba(15,122,63,0.1);
+  --band: #151a30;
+  --on-band: #eef0f7;
+  --token: rgba(15,122,63,0.4);
+  --plane: rgba(15,122,63,0.24);
+  --plane-fill: rgba(15,122,63,0.04);
+  --border: rgba(27,33,64,0.16);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -127,12 +145,14 @@ main:focus { outline: none; }
 }
 
 /* Nav */
+/* Same navy band and green rule as the footer, mirrored to the bottom edge */
 nav {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: var(--bg-nav);
-  border-bottom: 1px solid var(--border);
+  background: var(--band);
+  color: var(--on-band);
+  border-bottom: 3px solid var(--frame);
 }
 
 .bar {
@@ -153,7 +173,7 @@ nav ul {
 }
 
 nav .brand {
-  color: var(--accent);
+  color: var(--frame);
   font-family: var(--display);
   font-size: 1.25rem;
   font-weight: 700;
@@ -163,12 +183,45 @@ nav .brand {
 nav a {
   display: inline-block;
   padding-block: 0.25rem;
-  color: var(--muted);
+  color: rgba(238,240,247,0.72);
   font-size: 0.9375rem;
   text-decoration: none;
   transition: color 0.15s;
 }
-nav a:hover { color: var(--text); }
+nav a:hover { color: var(--on-band); }
+
+.theme-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  flex: none;
+  border: 1px solid rgba(238,240,247,0.24);
+  border-radius: 50%;
+  background: transparent;
+  color: rgba(238,240,247,0.72);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.theme-toggle[hidden] { display: none; }
+.theme-toggle:hover { color: var(--on-band); border-color: var(--frame); }
+.theme-toggle:focus-visible { outline: 2px solid var(--frame); outline-offset: 3px; }
+.theme-toggle svg { width: 1.125rem; height: 1.125rem; }
+
+/* Show the sun in dark mode (switch to light) and the moon in light mode */
+.theme-toggle .moon { display: none; }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .theme-toggle .sun { display: none; }
+  :root:not([data-theme="dark"]) .theme-toggle .moon { display: block; }
+}
+:root[data-theme="light"] .theme-toggle .sun { display: none; }
+:root[data-theme="light"] .theme-toggle .moon { display: block; }
+
+.bar-end {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
 
 /* Layout */
 main {
@@ -572,6 +625,17 @@ footer .stack {
 
   nav a { font-size: 0.875rem; }
 
+  .bar-end { gap: 1rem; }
+}
+
+/* Narrow phones: keep links and the theme button on one line under the sticky bar */
+@media (max-width: 25rem) {
+  .bar { gap: 0.75rem; }
+  .bar-end,
+  nav ul { gap: 0.25rem 0.625rem; }
+  nav a { font-size: 0.8125rem; }
+  .theme-toggle { width: 1.75rem; height: 1.75rem; }
+  .theme-toggle svg { width: 1rem; height: 1rem; }
 }
 
 .line { display: block; }
