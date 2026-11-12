@@ -35,6 +35,9 @@
   --accent: #3ecf7a;
   --on-accent: #151a30;
   --frame: #3ecf7a;
+  --pink: #ff4fa3;
+  --on-pink: #151a30;
+  --pink-band: #ff69b4;
   --glow: rgba(62,207,122,0.13);
   --band: #1e2542;
   --on-band: #eef0f7;
@@ -60,6 +63,10 @@
     --muted: #515a78;
     --accent: #0f7a3f;
     --on-accent: #ffffff;
+  --pink: #c2185b;
+  --on-pink: #ffffff;
+    --pink: #c2185b;
+    --on-pink: #ffffff;
     --glow: rgba(15,122,63,0.1);
     --band: #151a30;
     --on-band: #eef0f7;
@@ -78,6 +85,8 @@
   --muted: #515a78;
   --accent: #0f7a3f;
   --on-accent: #ffffff;
+  --pink: #c2185b;
+  --on-pink: #ffffff;
   --glow: rgba(15,122,63,0.1);
   --band: #151a30;
   --on-band: #eef0f7;
@@ -338,6 +347,23 @@ h1 {
 
 .links a { display: inline-block; padding-block: 0.25rem; }
 
+/* Resume is the one solid button on the page, so it reads as the first thing to click */
+.links { align-items: center; }
+
+.links a.cta {
+  padding: 0.375rem 1rem;
+  border-radius: 4px;
+  background: var(--pink);
+  color: var(--on-pink);
+  text-decoration: none;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.links a.cta:hover {
+  transform: translate(-0.125rem, -0.125rem);
+  box-shadow: 0.25rem 0.25rem 0 var(--text);
+}
+.links a.cta:focus-visible { outline-color: var(--pink); }
+
 /* The offset block sits behind the photo so its white backdrop reads as a deliberate frame in both themes. */
 .portrait {
   display: block;
@@ -583,7 +609,7 @@ footer a { color: inherit; }
   overflow-wrap: anywhere;
 }
 
-.mail a { color: var(--frame); }
+.mail a { color: var(--pink-band); }
 
 footer .stack {
   margin-top: 0;
@@ -947,7 +973,8 @@ footer .stack {
   *::after { transition: none !important; }
 
   a:hover .arrow,
-  a:focus-visible .arrow { transform: none; }
+  a:focus-visible .arrow,
+  .links a.cta:hover { transform: none; }
 }
 
 @media (forced-colors: active) {
